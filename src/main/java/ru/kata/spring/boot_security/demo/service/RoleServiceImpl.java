@@ -17,13 +17,11 @@ public class RoleServiceImpl implements RoleService {
         this.roleDao = roleDao;
     }
 
-    @Transactional
     @Override
     public List<Role> getRole() {
         return roleDao.getRole();
     }
 
-    @Transactional
     @Override
     public List<Role> getStringArrayToSetRole(String[] roles) {
         return roleDao.getStringArrayToSetRole(roles);
