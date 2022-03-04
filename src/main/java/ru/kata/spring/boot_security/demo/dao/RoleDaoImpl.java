@@ -15,21 +15,19 @@ public class RoleDaoImpl implements RoleDao {
     private EntityManager entityManager;
 
     @Override
-    public List<Role> getRole() {
-        Query query = entityManager.
-                createQuery("SELECT r FROM Role r");
-        List<Role> list = query.getResultList();
-        return list;
+    public List<Role> getAllRoles() {
+        return entityManager.createQuery("SELECT r FROM Role r")
+                .getResultList();
     }
 
     @Override
     public List<Role> getStringArrayToSetRole(String[] roles) {
         List<Role> list = new ArrayList<>();
-        for (String string:roles){
-            Query query = entityManager.
-                    createQuery("SELECT e FROM Role e where e.role=:rol");
-            query.setParameter("rol",string);
-            list.add((Role) query.getSingleResult());
+        for (String string : roles) {
+            list.add((Role) entityManager.
+                    createQuery("SELECT e FROM Role e where e.role=:rol")
+                    .setParameter("rol", string)
+                    .getSingleResult());
         }
         return list;
     }

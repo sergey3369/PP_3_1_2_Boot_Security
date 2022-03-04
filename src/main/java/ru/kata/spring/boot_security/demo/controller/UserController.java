@@ -13,13 +13,10 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/")
 public class UserController {
-    final private RoleService roleService;
-
     final private UserService userService;
 
     public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @GetMapping("/user")

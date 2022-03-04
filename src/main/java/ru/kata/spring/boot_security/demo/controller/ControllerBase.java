@@ -15,12 +15,10 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/")
 public class ControllerBase {
-    final private PasswordEncoder passwordEncoder;
     final private RoleService roleService;
     final private UserService userService;
 
-    public ControllerBase(PasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
-        this.passwordEncoder = passwordEncoder;
+    public ControllerBase( UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -32,7 +30,7 @@ public class ControllerBase {
     }
 
     @GetMapping("/admin/{id}")
-    String getPage(@PathVariable Integer id, Model model) {
+    String getPage(@PathVariable Long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
         return "user";
     }
@@ -40,16 +38,16 @@ public class ControllerBase {
     @GetMapping("/admin/new")
     String getAddPage(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
-        modelMap.addAttribute("roles", roleService.getRole()
+        modelMap.addAttribute("roles", roleService.getAllRoles()
                 .stream().collect(Collectors.toSet()));
         return "new";
     }
 
     @GetMapping("/admin/{id}/edit")
-    String getEditPage(@PathVariable Integer id, ModelMap modelMap) {
+    String getEditPage(@PathVariable Long id, ModelMap modelMap) {
         User user = userService.getUser(id);
         modelMap.addAttribute("user", user);
-        modelMap.addAttribute("roles", roleService.getRole()
+        modelMap.addAttribute("roles", roleService.getAllRoles()
                 .stream().collect(Collectors.toSet()));
         return "edit";
     }
@@ -57,7 +55,6 @@ public class ControllerBase {
     @PostMapping("/")
     String add(@ModelAttribute("user") User user, @RequestParam(value = "role", defaultValue = "ROLE_USER") String[] role) {
         user.setRoles(roleService.getStringArrayToSetRole(role));
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -65,17 +62,12 @@ public class ControllerBase {
     @PatchMapping("/{id}")
     String edit(@ModelAttribute("user") User user, @RequestParam(value = "role", defaultValue = "ROLE_USER") String[] role) {
         user.setRoles(roleService.getStringArrayToSetRole(role));
-        if (!user.getPassword().equals(userService
-                .getUser(Math.toIntExact(user.getId()))
-                .getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
         userService.update(user);
         return "redirect:/admin";
     }
 
     @DeleteMapping("/{id}")
-    String delete(@PathVariable Integer id) {
+    String delete(@PathVariable Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
     }

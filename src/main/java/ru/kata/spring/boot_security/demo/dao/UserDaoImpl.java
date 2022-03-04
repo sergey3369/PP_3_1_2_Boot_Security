@@ -14,10 +14,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getUsers() {
-        Query query = entityManager.
-                createQuery("SELECT e FROM User e");
-        List<User> list = query.getResultList();
-        return list;
+        return entityManager.createQuery("SELECT e FROM User e")
+                .getResultList();
     }
 
     @Override
@@ -26,19 +24,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(int id) {
-        Query query = entityManager.
-                createQuery("select u from User u where u.id = :id");
-        query.setParameter("id", (long) id);
-        return (User) query.getSingleResult();
+    public User getUser(Long id) {
+        return (User) entityManager.
+                createQuery("select u from User u where u.id = :id")
+                .setParameter("id",  id)
+                .getSingleResult();
     }
 
     @Override
-    public void deleteUser(Integer id) {
-        Query query = entityManager.
-                createQuery("delete from User u where u.id = :id");
-        query.setParameter("id", (long) id);
-        query.executeUpdate();
+    public void deleteUser(Long id) {
+        entityManager.createQuery("delete from User u where u.id = :id")
+                .setParameter("id",  id)
+                .executeUpdate();
     }
 
     @Override
@@ -48,9 +45,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUsername(String username) {
-        Query query = entityManager.
-                createQuery("select u from User u where u.name = :name");
-        query.setParameter("name", username);
-        return (User) query.getSingleResult();
+        return (User) entityManager.createQuery("select u from User u where u.name = :name")
+                .setParameter("name", username)
+                .getSingleResult();
     }
 }
