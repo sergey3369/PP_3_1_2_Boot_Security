@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Log4j2
-@WebMvcTest(ControllerBase.class)
+@WebMvcTest(ConstrollerBase.class)
 public class ControllersTest {
 
     private UserDao userDao = mock(UserDao.class);
