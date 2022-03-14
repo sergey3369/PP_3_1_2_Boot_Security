@@ -11,16 +11,14 @@
         <th>NAME</th>
         <th>LAST.NAME</th>
         <th>AGE</th>
-        <th>PASSWORD</th>
         <th>ROLES</th>
     </tr>
     <tr>
-        <td th:text="${user.getId()}"></td>
-        <td th:text="${user.getName}"></td>
-        <td th:text="${user.getLastName}"></td>
-        <td th:text="${user.getAge}"></td>
-        <td th:text="${user.getPassword()}"></td>
-        <td th:text="${user.getRoles()}"></td>
+        <td th:text="${user.getDtoId()}"></td>
+        <td th:text="${user.getDtoName()}"></td>
+        <td th:text="${user.getDtoLastName()}"></td>
+        <td th:text="${user.getDtoAge()}"></td>
+        <td th:text="${user.getDtoRoles()}"></td>
     </tr>
 </table>
 <h2>
